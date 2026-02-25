@@ -1,51 +1,16 @@
-# Faraday Architecture
+# Architecture
 
-Faraday is a comprehensive security platform that combines a Flask-based API with background task processing capabilities. The system is designed to handle both synchronous HTTP requests and real-time WebSocket communications, while efficiently processing long-running tasks through a distributed worker system.
+Noxkan is currently based on the original Faraday architecture:
+https://github.com/infobyte/faraday
 
-## System Overview
+The core system consists of:
 
-```ascii
-+------------------+
-|                  |
-|     Clients      |
-|  - API Clients   |
-|  - Cloud Agents  |
-|  - Faraday Agents|
-|  - Faraday-cli   |
-|  - Faraday's     |
-|    React UI      |
-|                  |
-+------------------+
-        |
-        v
-+------------------+     +------------------+     +------------------+
-|                  |     |                  |     |                  |
-|  Faraday Flask   |     |  Message Broker  |     |  Faraday Workers |
-|       API        |<--->| (Redis/RabbitMQ) |<--->|     (Celery)     |
-|    (HTTP/WS)     |     |                  |     |                  |
-+------------------+     +------------------+     +------------------+
-        |                                                |
-        |                                                |
-        v                                                v
-+------------------+                               +------------------+
-|                  |                               |                  |
-|    PostgreSQL    |                               |  Long Tasks:     |
-|    Database      |                               |  - Exec Reports  |
-|                  |                               |  - Scan Imports  |
-|                  |                               |  - Stats Gen     |
-+------------------+                               +------------------+
-```
+- Flask-based API
+- Background task processing
+- Message broker integration
+- PostgreSQL datastore
+- Web interface
+- Tool integration framework
 
-## Components
-
-- **Faraday Flask API**: Main application server handling HTTP and WebSocket requests
-- **Message Broker**: Queue system (Redis/RabbitMQ) for task distribution
-- **Faraday Workers**: Celery workers processing background tasks
-- **PostgreSQL**: Primary database for data storage
-- **Long Tasks**: Background jobs processed by workers
-- **Clients**: Various client interfaces including:
-  - API Clients: External applications using Faraday's API
-  - Cloud Agents: Cloud-based agents for distributed task execution
-  - [Faraday Agents](https://github.com/infobyte/faraday_agent_dispatcher): Local agents for task execution
-  - [Faraday-cli](https://github.com/infobyte/faraday-cli): Command-line interface
-  - Faraday's React UI: Web-based user interface
+At this stage, the architecture remains aligned with upstream.
+Changes and extensions will be documented as they are introduced.
